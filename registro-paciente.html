@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clínica Salud+ | Registro de Paciente</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="plus">+</span> Clínica Salud+
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro-paciente.html" class="active">Registrarme</a></li>
+        <li><a href="citas.html">Agendar Cita</a></li>
+        <li><a href="medicos.html">Médicos</a></li>
+        <li><a href="recomendaciones.html">Recomendaciones</a></li>
+        <li><a href="citas.html" class="nav-cta">Pedir Cita</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Registro de Paciente</h1>
+    <p>Crea tu perfil para acceder a todos nuestros servicios médicos</p>
+  </div>
+
+  <!-- FORMULARIO -->
+  <section class="section">
+    <div class="section-center">
+      <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; align-items: start; max-width: 900px; margin: 0 auto;">
+
+        <!-- Info lateral -->
+        <div>
+          <div class="section-title" style="text-align:left;">
+            <span class="badge">Paso 1 de 3</span>
+            <h2 style="font-size:1.4rem;">¿Por qué registrarse?</h2>
+            <div class="line" style="margin-left:0;"></div>
+          </div>
+          <div class="info-item" style="margin-top:1.5rem;">
+            <span class="info-icon">✅</span>
+            <div>
+              <h4>Gestiona tus citas</h4>
+              <p>Agenda y controla tus consultas médicas fácilmente.</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📋</span>
+            <div>
+              <h4>Historial médico</h4>
+              <p>Accede a tus recomendaciones y consultas anteriores.</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🔒</span>
+            <div>
+              <h4>Datos seguros</h4>
+              <p>Tu información personal está protegida y es confidencial.</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🩺</span>
+            <div>
+              <h4>Acceso a especialistas</h4>
+              <p>Elige entre nuestros médicos disponibles con facilidad.</p>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem; padding:1rem; background:var(--accent); border-radius:var(--radius); font-size:0.85rem; color:var(--text-light);">
+            ¿Ya tienes cuenta? <a href="citas.html" style="color:var(--primary); font-weight:600;">Agenda tu cita directamente →</a>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="form-container" style="margin:0;">
+          <h3 style="color:var(--primary); margin-bottom:1.5rem; font-size:1.2rem;">Datos del paciente</h3>
+          <form id="formRegistro" novalidate>
+
+            <div class="form-group">
+              <label for="identificacion">Número de identificación *</label>
+              <input
+                type="text"
+                id="identificacion"
+                name="identificacion"
+                placeholder="Ej: 1023456789"
+                maxlength="15"
+              />
+              <span class="error-msg" id="err-identificacion"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="nombre">Nombre completo *</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Ej: Juan Carlos Pérez"
+              />
+              <span class="error-msg" id="err-nombre"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="edad">Edad *</label>
+              <input
+                type="number"
+                id="edad"
+                name="edad"
+                placeholder="Ej: 34"
+                min="0"
+                max="120"
+              />
+              <span class="error-msg" id="err-edad"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Teléfono de contacto *</label>
+              <input
+                type="tel"
+                id="telefono"
+                name="telefono"
+                placeholder="Ej: 3001234567"
+                maxlength="10"
+              />
+              <span class="error-msg" id="err-telefono"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Correo electrónico *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Ej: paciente@correo.com"
+              />
+              <span class="error-msg" id="err-email"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="eps">EPS / Aseguradora</label>
+              <select id="eps" name="eps">
+                <option value="">-- Seleccionar (opcional) --</option>
+                <option>Sura EPS</option>
+                <option>Nueva EPS</option>
+                <option>Sanitas EPS</option>
+                <option>Compensar</option>
+                <option>Coosalud</option>
+                <option>Particular / Sin EPS</option>
+              </select>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary btn-full">Registrarme como paciente</button>
+            </div>
+
+            <p style="text-align:center; margin-top:1rem; font-size:0.82rem; color:var(--text-light);">
+              Al registrarte aceptas nuestra política de privacidad y tratamiento de datos.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>+ Clínica Salud+</h3>
+        <p>Comprometidos con tu bienestar y el de tu familia.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="registro-paciente.html">Registro paciente</a></li>
+          <li><a href="citas.html">Agendar cita</a></li>
+          <li><a href="medicos.html">Médicos</a></li>
+          <li><a href="recomendaciones.html">Recomendaciones</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Clínica Salud+. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    const form = document.getElementById('formRegistro');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      const campos = [
+        { id: 'identificacion', msg: 'Ingresa tu número de identificación.' },
+        { id: 'nombre', msg: 'Ingresa tu nombre completo.' },
+        { id: 'edad', msg: 'Ingresa tu edad.' },
+        { id: 'telefono', msg: 'Ingresa tu número de teléfono.' },
+        { id: 'email', msg: 'Ingresa tu correo electrónico.' },
+      ];
+
+      campos.forEach(({ id, msg }) => {
+        const input = document.getElementById(id);
+        const error = document.getElementById('err-' + id);
+        if (!input.value.trim()) {
+          input.classList.add('error');
+          error.textContent = msg;
+          error.classList.add('show');
+          valid = false;
+        } else {
+          input.classList.remove('error');
+          error.classList.remove('show');
+        }
+      });
+
+      // Validar edad
+      const edadInput = document.getElementById('edad');
+      if (edadInput.value && (parseInt(edadInput.value) < 0 || parseInt(edadInput.value) > 120)) {
+        edadInput.classList.add('error');
+        document.getElementById('err-edad').textContent = 'Ingresa una edad válida (0–120).';
+        document.getElementById('err-edad').classList.add('show');
+        valid = false;
+      }
+
+      // Validar email
+      const emailInput = document.getElementById('email');
+      if (emailInput.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+        emailInput.classList.add('error');
+        document.getElementById('err-email').textContent = 'Ingresa un correo válido.';
+        document.getElementById('err-email').classList.add('show');
+        valid = false;
+      }
+
+      if (valid) {
+        showToast('✅ Paciente registrado exitosamente. Ya puedes agendar tu cita.');
+        setTimeout(() => { window.location.href = 'citas.html'; }, 2500);
+        form.reset();
+      }
+    });
+
+    form.querySelectorAll('input').forEach(el => {
+      el.addEventListener('input', () => {
+        el.classList.remove('error');
+        const err = document.getElementById('err-' + el.id);
+        if (err) err.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>

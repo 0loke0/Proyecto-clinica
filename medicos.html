@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clínica Salud+ | Médicos Disponibles</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .filtro-bar {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+    .filtro-btn {
+      padding: 0.45rem 1.1rem;
+      border-radius: 20px;
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filtro-btn:hover,
+    .filtro-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    .doctor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .doctor-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.2s;
+      text-align: center;
+      padding-bottom: 1.5rem;
+    }
+    .doctor-card:hover { transform: translateY(-4px); }
+    .doctor-card .status {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    .status-disponible { background: #d4edda; color: #155724; }
+    .status-ocupado { background: #f8d7da; color: #721c24; }
+    .doctor-card .agendar-btn {
+      display: inline-block;
+      margin-top: 0.8rem;
+      padding: 0.45rem 1.2rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .doctor-card .agendar-btn:hover { background: var(--primary-dark); }
+    .doctor-card .agendar-btn.disabled {
+      background: #adb5bd;
+      pointer-events: none;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="plus">+</span> Clínica Salud+
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro-paciente.html">Registrarme</a></li>
+        <li><a href="citas.html">Agendar Cita</a></li>
+        <li><a href="medicos.html" class="active">Médicos</a></li>
+        <li><a href="recomendaciones.html">Recomendaciones</a></li>
+        <li><a href="citas.html" class="nav-cta">Pedir Cita</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Médicos Disponibles</h1>
+    <p>Conoce a nuestro equipo de especialistas y agenda tu cita</p>
+  </div>
+
+  <!-- FILTROS + LISTA -->
+  <section class="section">
+    <div class="section-center">
+
+      <div class="filtro-bar">
+        <button class="filtro-btn active" data-especialidad="todos">Todos</button>
+        <button class="filtro-btn" data-especialidad="medicina-general">Medicina General</button>
+        <button class="filtro-btn" data-especialidad="pediatria">Pediatría</button>
+        <button class="filtro-btn" data-especialidad="odontologia">Odontología</button>
+        <button class="filtro-btn" data-especialidad="cardiologia">Cardiología</button>
+        <button class="filtro-btn" data-especialidad="ginecologia">Ginecología</button>
+        <button class="filtro-btn" data-especialidad="traumatologia">Traumatología</button>
+      </div>
+
+      <div class="doctor-grid" id="doctorGrid">
+
+        <!-- Medicina General -->
+        <div class="doctor-card" data-esp="medicina-general">
+          <div class="doctor-avatar">👨‍⚕️</div>
+          <h3>Dr. Andrés Gómez</h3>
+          <div class="specialty">Medicina General</div>
+          <div class="schedule">ID: MG-001 &nbsp;|&nbsp; Lun–Vie 8am–4pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=andres-gomez" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <div class="doctor-card" data-esp="medicina-general">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h3>Dra. Laura Herrera</h3>
+          <div class="specialty">Medicina General</div>
+          <div class="schedule">ID: MG-002 &nbsp;|&nbsp; Lun–Sáb 9am–5pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=laura-herrera" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <!-- Pediatría -->
+        <div class="doctor-card" data-esp="pediatria">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h3>Dra. Sofía Ramírez</h3>
+          <div class="specialty">Pediatría</div>
+          <div class="schedule">ID: PD-001 &nbsp;|&nbsp; Lun–Vie 7am–3pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=sofia-ramirez" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <div class="doctor-card" data-esp="pediatria">
+          <div class="doctor-avatar">👨‍⚕️</div>
+          <h3>Dr. Carlos Medina</h3>
+          <div class="specialty">Pediatría</div>
+          <div class="schedule">ID: PD-002 &nbsp;|&nbsp; Mar–Sáb 10am–6pm</div>
+          <span class="status status-ocupado">Ocupado</span><br/>
+          <a href="citas.html?medico=carlos-medina" class="agendar-btn disabled">No disponible</a>
+        </div>
+
+        <!-- Odontología -->
+        <div class="doctor-card" data-esp="odontologia">
+          <div class="doctor-avatar">👨‍⚕️</div>
+          <h3>Dr. Felipe Torres</h3>
+          <div class="specialty">Odontología</div>
+          <div class="schedule">ID: OD-001 &nbsp;|&nbsp; Lun–Vie 8am–5pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=felipe-torres" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <div class="doctor-card" data-esp="odontologia">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h3>Dra. Valentina Cruz</h3>
+          <div class="specialty">Odontología</div>
+          <div class="schedule">ID: OD-002 &nbsp;|&nbsp; Lun–Sáb 9am–4pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=valentina-cruz" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <!-- Cardiología -->
+        <div class="doctor-card" data-esp="cardiologia">
+          <div class="doctor-avatar">👨‍⚕️</div>
+          <h3>Dr. Roberto Nieto</h3>
+          <div class="specialty">Cardiología</div>
+          <div class="schedule">ID: CD-001 &nbsp;|&nbsp; Lun–Jue 8am–4pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=roberto-nieto" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <div class="doctor-card" data-esp="cardiologia">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h3>Dra. Marcela Ríos</h3>
+          <div class="specialty">Cardiología</div>
+          <div class="schedule">ID: CD-002 &nbsp;|&nbsp; Mié–Sáb 9am–5pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=marcela-rios" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <!-- Ginecología -->
+        <div class="doctor-card" data-esp="ginecologia">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h3>Dra. Patricia Lozano</h3>
+          <div class="specialty">Ginecología</div>
+          <div class="schedule">ID: GN-001 &nbsp;|&nbsp; Lun–Vie 7am–3pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=patricia-lozano" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <div class="doctor-card" data-esp="ginecologia">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h3>Dra. Isabel Morales</h3>
+          <div class="specialty">Ginecología</div>
+          <div class="schedule">ID: GN-002 &nbsp;|&nbsp; Mar–Sáb 10am–6pm</div>
+          <span class="status status-ocupado">Ocupado</span><br/>
+          <a href="#" class="agendar-btn disabled">No disponible</a>
+        </div>
+
+        <!-- Traumatología -->
+        <div class="doctor-card" data-esp="traumatologia">
+          <div class="doctor-avatar">👨‍⚕️</div>
+          <h3>Dr. Javier Pedraza</h3>
+          <div class="specialty">Traumatología</div>
+          <div class="schedule">ID: TR-001 &nbsp;|&nbsp; Lun–Vie 8am–4pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=javier-pedraza" class="agendar-btn">Agendar cita</a>
+        </div>
+
+        <div class="doctor-card" data-esp="traumatologia">
+          <div class="doctor-avatar">👨‍⚕️</div>
+          <h3>Dr. Santiago Vargas</h3>
+          <div class="specialty">Traumatología</div>
+          <div class="schedule">ID: TR-002 &nbsp;|&nbsp; Lun–Sáb 9am–5pm</div>
+          <span class="status status-disponible">Disponible</span><br/>
+          <a href="citas.html?medico=santiago-vargas" class="agendar-btn">Agendar cita</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>+ Clínica Salud+</h3>
+        <p>Comprometidos con tu bienestar y el de tu familia.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="registro-paciente.html">Registro paciente</a></li>
+          <li><a href="citas.html">Agendar cita</a></li>
+          <li><a href="medicos.html">Médicos</a></li>
+          <li><a href="recomendaciones.html">Recomendaciones</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Clínica Salud+. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Filtro por especialidad
+    document.querySelectorAll('.filtro-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const esp = btn.getAttribute('data-especialidad');
+        document.querySelectorAll('.doctor-card').forEach(card => {
+          if (esp === 'todos' || card.getAttribute('data-esp') === esp) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
