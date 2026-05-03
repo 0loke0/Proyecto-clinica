@@ -1,0 +1,18 @@
+# Archivos de compilación y empaquetado
+*.zip
+
+# Archivos de .NET
+bin/
+obj/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+
+# Archivos de IDE
+.vs/
+.vscode/
+*.user
+
+# Logs
+*.log

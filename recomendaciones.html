@@ -124,50 +124,35 @@
           <div class="form-container" style="margin:0;">
             <form id="formRecomendacion" novalidate>
 
-              <h4 style="color:var(--text-light); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem;">Datos del médico</h4>
+              <h4 style="color:var(--text-light); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem;">Buscar cita del paciente</h4>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="med-id">ID del médico *</label>
-                  <input type="text" id="med-id" placeholder="Ej: MG-001" />
-                  <span class="error-msg" id="err-med-id"></span>
+                  <label for="buscar-pac-id">Identificación del paciente *</label>
+                  <input type="text" id="buscar-pac-id" placeholder="Ej: 1023456789" />
+                  <span class="error-msg" id="err-buscar-pac-id"></span>
                 </div>
-                <div class="form-group">
-                  <label for="med-nombre">Nombre del médico *</label>
-                  <input type="text" id="med-nombre" placeholder="Ej: Dr. Andrés Gómez" />
-                  <span class="error-msg" id="err-med-nombre"></span>
+                <div class="form-group" style="display:flex; align-items:flex-end;">
+                  <button type="button" class="btn btn-primary" style="width:100%;" onclick="buscarCitasPaciente()">Buscar citas</button>
                 </div>
               </div>
 
-              <div class="form-group">
-                <label for="med-especialidad">Especialidad *</label>
-                <select id="med-especialidad">
-                  <option value="">-- Seleccionar especialidad --</option>
-                  <option>Medicina General</option>
-                  <option>Pediatría</option>
-                  <option>Odontología</option>
-                  <option>Cardiología</option>
-                  <option>Ginecología</option>
-                  <option>Traumatología</option>
+              <div class="form-group" id="cita-selector-container" style="display:none;">
+                <label for="cita-select">Seleccionar cita *</label>
+                <select id="cita-select">
+                  <option value="">-- Seleccionar cita --</option>
                 </select>
-                <span class="error-msg" id="err-med-especialidad"></span>
+                <span class="error-msg" id="err-cita-select"></span>
+              </div>
+
+              <div id="info-cita" style="display:none; background:var(--accent); padding:1rem; border-radius:var(--radius); margin-bottom:1rem;">
+                <p><strong>Paciente:</strong> <span id="info-paciente"></span></p>
+                <p><strong>Médico:</strong> <span id="info-medico"></span></p>
+                <p><strong>Fecha:</strong> <span id="info-fecha"></span></p>
+                <p><strong>Motivo:</strong> <span id="info-motivo"></span></p>
               </div>
 
               <hr style="border:none; border-top:1px solid var(--border); margin:1.2rem 0;" />
-              <h4 style="color:var(--text-light); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem;">Datos del paciente</h4>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="pac-id">ID del paciente *</label>
-                  <input type="text" id="pac-id" placeholder="Ej: 1023456789" />
-                  <span class="error-msg" id="err-pac-id"></span>
-                </div>
-                <div class="form-group">
-                  <label for="pac-nombre">Nombre del paciente *</label>
-                  <input type="text" id="pac-nombre" placeholder="Ej: Juan Pérez" />
-                  <span class="error-msg" id="err-pac-nombre"></span>
-                </div>
-              </div>
 
               <hr style="border:none; border-top:1px solid var(--border); margin:1.2rem 0;" />
               <h4 style="color:var(--text-light); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem;">Recomendaciones finales</h4>
@@ -263,18 +248,80 @@
       btn.classList.add('active');
     }
 
+    const API_URL = 'http://localhost:5071/api';
+    let citasPaciente = [];
+
+    // Buscar citas del paciente
+    async function buscarCitasPaciente() {
+      const identificacion = document.getElementById('buscar-pac-id').value.trim();
+      const err = document.getElementById('err-buscar-pac-id');
+      if (!identificacion) {
+        err.textContent = 'Ingresa la identificación del paciente.';
+        err.classList.add('show');
+        return;
+      }
+      err.classList.remove('show');
+
+      try {
+        const pacResponse = await fetch(`${API_URL}/pacientes/identificacion/${identificacion}`);
+        if (!pacResponse.ok) {
+          showToast('❌ Paciente no encontrado');
+          return;
+        }
+        const paciente = await pacResponse.json();
+
+        const citasResponse = await fetch(`${API_URL}/citas/paciente/${paciente.idPaciente}`);
+        if (!citasResponse.ok) throw new Error('Error al cargar citas');
+        citasPaciente = await citasResponse.json();
+
+        const select = document.getElementById('cita-select');
+        select.innerHTML = '<option value="">-- Seleccionar cita --</option>';
+        citasPaciente.forEach(cita => {
+          const option = document.createElement('option');
+          option.value = cita.idCita;
+          const fecha = cita.fechaCita ? cita.fechaCita.split('T')[0] : '';
+          option.textContent = `${fecha} - ${cita.medico ? cita.medico.nombreCompleto : 'Médico'} (${cita.motivoConsulta})`;
+          select.appendChild(option);
+        });
+
+        document.getElementById('cita-selector-container').style.display = 'block';
+      } catch (error) {
+        console.error(error);
+        showToast('❌ Error al buscar citas del paciente');
+      }
+    }
+
+    // Mostrar info de cita seleccionada
+    document.getElementById('cita-select').addEventListener('change', function() {
+      const idCita = parseInt(this.value);
+      const cita = citasPaciente.find(c => c.idCita === idCita);
+      if (cita) {
+        document.getElementById('info-paciente').textContent = cita.paciente ? cita.paciente.nombreCompleto : '';
+        document.getElementById('info-medico').textContent = cita.medico ? cita.medico.nombreCompleto : '';
+        document.getElementById('info-fecha').textContent = cita.fechaCita ? cita.fechaCita.split('T')[0] : '';
+        document.getElementById('info-motivo').textContent = cita.motivoConsulta;
+        document.getElementById('info-cita').style.display = 'block';
+      } else {
+        document.getElementById('info-cita').style.display = 'none';
+      }
+    });
+
     // Validar y guardar recomendación
     const form = document.getElementById('formRecomendacion');
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       let valid = true;
 
+      const citaSelect = document.getElementById('cita-select');
+      if (!citaSelect.value) {
+        document.getElementById('err-cita-select').textContent = 'Selecciona una cita.';
+        document.getElementById('err-cita-select').classList.add('show');
+        valid = false;
+      } else {
+        document.getElementById('err-cita-select').classList.remove('show');
+      }
+
       const campos = [
-        ['med-id', 'Ingresa el ID del médico.'],
-        ['med-nombre', 'Ingresa el nombre del médico.'],
-        ['med-especialidad', 'Selecciona la especialidad.'],
-        ['pac-id', 'Ingresa el ID del paciente.'],
-        ['pac-nombre', 'Ingresa el nombre del paciente.'],
         ['diagnostico', 'Ingresa el diagnóstico.'],
         ['recomendaciones', 'Escribe las recomendaciones.'],
       ];
@@ -293,8 +340,31 @@
       });
 
       if (valid) {
-        showToast('✅ Recomendaciones guardadas exitosamente.');
-        form.reset();
+        const recomendacion = {
+          idCita: parseInt(citaSelect.value),
+          diagnostico: document.getElementById('diagnostico').value.trim(),
+          medicamentos: document.getElementById('medicamentos').value.trim() || null,
+          recomendacionesCuidados: document.getElementById('recomendaciones').value.trim(),
+          proximaCita: document.getElementById('proxima-cita').value || null
+        };
+
+        try {
+          const response = await fetch(`${API_URL}/recomendaciones`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(recomendacion)
+          });
+          if (!response.ok) throw new Error('Error al guardar recomendación');
+
+          showToast('✅ Recomendaciones guardadas exitosamente.');
+          form.reset();
+          document.getElementById('cita-selector-container').style.display = 'none';
+          document.getElementById('info-cita').style.display = 'none';
+          citasPaciente = [];
+        } catch (error) {
+          console.error(error);
+          showToast('❌ ' + error.message);
+        }
       }
     });
 
@@ -306,22 +376,8 @@
       });
     });
 
-    // Buscar recomendaciones (datos de demostración)
-    const datosDemo = {
-      '1023456789': [
-        {
-          fecha: '2026-04-10',
-          medico: 'Dr. Andrés Gómez',
-          especialidad: 'Medicina General',
-          diagnostico: 'Hipertensión arterial leve',
-          medicamentos: 'Losartán 50mg — 1 tableta diaria por 30 días.',
-          recomendaciones: 'Reducir consumo de sal. Realizar ejercicio físico moderado 30 min/día. Evitar el estrés. Control de peso. Revisión en 30 días.',
-          proxima: '2026-05-10'
-        }
-      ]
-    };
-
-    function buscarRecomendaciones() {
+    // Buscar recomendaciones desde la API
+    async function buscarRecomendaciones() {
       const id = document.getElementById('buscar-id').value.trim();
       const contenedor = document.getElementById('resultados-busqueda');
 
@@ -330,31 +386,49 @@
         return;
       }
 
-      const datos = datosDemo[id];
-      if (!datos) {
-        contenedor.innerHTML = `<p style="color:var(--text-light); font-size:0.9rem;">No se encontraron recomendaciones para la identificación <strong>${id}</strong>.</p>`;
-        return;
-      }
+      try {
+        const pacResponse = await fetch(`${API_URL}/pacientes/identificacion/${id}`);
+        if (!pacResponse.ok) {
+          contenedor.innerHTML = `<p style="color:var(--text-light); font-size:0.9rem;">No se encontró el paciente con identificación <strong>${id}</strong>.</p>`;
+          return;
+        }
+        const paciente = await pacResponse.json();
 
-      let html = `<p style="color:var(--text-light); font-size:0.85rem; margin-bottom:1rem;">${datos.length} recomendación(es) encontrada(s) para el paciente ID <strong>${id}</strong>:</p>`;
-      datos.forEach(d => {
-        html += `
-          <div class="recomendacion-card">
-            <div class="rec-header">
-              <div>
-                <h4>Consulta: ${d.especialidad}</h4>
-                <div class="rec-meta">📅 ${d.fecha} &nbsp;|&nbsp; 👨‍⚕️ ${d.medico}</div>
+        const recResponse = await fetch(`${API_URL}/recomendaciones/paciente/${paciente.idPaciente}`);
+        if (!recResponse.ok) throw new Error('Error al cargar recomendaciones');
+        const recomendaciones = await recResponse.json();
+
+        if (!recomendaciones || recomendaciones.length === 0) {
+          contenedor.innerHTML = `<p style="color:var(--text-light); font-size:0.9rem;">No se encontraron recomendaciones para la identificación <strong>${id}</strong>.</p>`;
+          return;
+        }
+
+        let html = `<p style="color:var(--text-light); font-size:0.85rem; margin-bottom:1rem;">${recomendaciones.length} recomendación(es) encontrada(s) para el paciente ID <strong>${id}</strong>:</p>`;
+        recomendaciones.forEach(r => {
+          const cita = r.cita || {};
+          const medico = cita.medico || {};
+          const esp = medico.especialidad ? medico.especialidad.nombreEspecialidad : '';
+          html += `
+            <div class="recomendacion-card">
+              <div class="rec-header">
+                <div>
+                  <h4>Consulta: ${esp}</h4>
+                  <div class="rec-meta">📅 ${cita.fechaCita ? cita.fechaCita.split('T')[0] : ''} &nbsp;|&nbsp; 👨‍⚕️ ${medico.nombreCompleto || ''}</div>
+                </div>
+                <span class="rec-badge">${esp}</span>
               </div>
-              <span class="rec-badge">${d.especialidad}</span>
-            </div>
-            <p><strong>Diagnóstico:</strong> ${d.diagnostico}</p>
-            ${d.medicamentos ? `<p style="margin-top:0.5rem;"><strong>Medicamentos:</strong> ${d.medicamentos}</p>` : ''}
-            <p style="margin-top:0.5rem;"><strong>Recomendaciones:</strong> ${d.recomendaciones}</p>
-            ${d.proxima ? `<p style="margin-top:0.5rem; color:var(--primary); font-size:0.85rem;"><strong>Próxima cita:</strong> ${d.proxima}</p>` : ''}
-          </div>`;
-      });
+              <p><strong>Diagnóstico:</strong> ${r.diagnostico}</p>
+              ${r.medicamentos ? `<p style="margin-top:0.5rem;"><strong>Medicamentos:</strong> ${r.medicamentos}</p>` : ''}
+              <p style="margin-top:0.5rem;"><strong>Recomendaciones:</strong> ${r.recomendacionesCuidados}</p>
+              ${r.proximaCita ? `<p style="margin-top:0.5rem; color:var(--primary); font-size:0.85rem;"><strong>Próxima cita:</strong> ${r.proximaCita.split('T')[0]}</p>` : ''}
+            </div>`;
+        });
 
-      contenedor.innerHTML = html;
+        contenedor.innerHTML = html;
+      } catch (error) {
+        console.error(error);
+        contenedor.innerHTML = '<p style="color:#e74c3c; font-size:0.9rem;">Error al buscar recomendaciones.</p>';
+      }
     }
   </script>
 </body>

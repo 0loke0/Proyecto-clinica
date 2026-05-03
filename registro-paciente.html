@@ -241,9 +241,33 @@
       }
 
       if (valid) {
-        showToast('✅ Paciente registrado exitosamente. Ya puedes agendar tu cita.');
-        setTimeout(() => { window.location.href = 'citas.html'; }, 2500);
-        form.reset();
+        const paciente = {
+          identificacion: document.getElementById('identificacion').value.trim(),
+          nombreCompleto: document.getElementById('nombre').value.trim(),
+          edad: parseInt(document.getElementById('edad').value),
+          telefono: document.getElementById('telefono').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          eps: document.getElementById('eps').value || null
+        };
+
+        fetch('http://localhost:5071/api/pacientes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(paciente)
+        })
+        .then(response => {
+          if (!response.ok) throw new Error('Error al registrar paciente');
+          return response.json();
+        })
+        .then(data => {
+          showToast('✅ Paciente registrado exitosamente. Ya puedes agendar tu cita.');
+          setTimeout(() => { window.location.href = 'citas.html'; }, 2500);
+          form.reset();
+        })
+        .catch(error => {
+          showToast('❌ ' + error.message);
+          console.error(error);
+        });
       }
     });
 

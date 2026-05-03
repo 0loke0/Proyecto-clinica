@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentación Taller - Clínica Salud+</title>
+  <style>
+    @page { size: A4; margin: 2.5cm; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; }
+    h1 { color: #1a6fbf; text-align: center; border-bottom: 3px solid #1a6fbf; padding-bottom: 1rem; }
+    h2 { color: #1a6fbf; margin-top: 2rem; border-left: 4px solid #1a6fbf; padding-left: 0.8rem; }
+    h3 { color: #145499; margin-top: 1.5rem; }
+    .cover { text-align: center; margin-top: 4rem; }
+    .cover h1 { font-size: 2.2rem; border: none; }
+    .cover .meta { margin-top: 3rem; font-size: 1.1rem; color: #555; }
+    .cover .meta p { margin: 0.5rem 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #dee2e6; padding: 0.6rem; text-align: left; }
+    th { background: #1a6fbf; color: white; }
+    tr:nth-child(even) { background: #f4f7fb; }
+    code { background: #f4f7fb; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: Consolas, monospace; }
+    pre { background: #1a2332; color: #e8f4fd; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    .reference { text-indent: -2rem; padding-left: 2rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- PORTADA -->
+  <div class="cover">
+    <h1>Clínica Salud+</h1>
+    <h2 style="border:none; padding:0; color:#555;">Aplicación Web MVC con Base de Datos</h2>
+    <div class="meta">
+      <p><strong>Asignatura:</strong> Desarrollo Web</p>
+      <p><strong>Taller:</strong> Construcción de una aplicación web con conexión a base de datos integrando MVC o MVT</p>
+      <p><strong>Fecha:</strong> 3 de mayo de 2026</p>
+      <p><strong>Integrantes:</strong> [Nombre 1], [Nombre 2], [Nombre 3], [Nombre 4]</p>
+    </div>
+  </div>
+
+  <div style="page-break-before: always;"></div>
+
+  <!-- INTRODUCCIÓN -->
+  <h2>1. Introducción</h2>
+  <p>
+    El presente documento describe el desarrollo de una aplicación web para la gestión de una clínica médica, denominada <strong>Clínica Salud+</strong>. El proyecto tiene como objetivo implementar una solución completa que permita el registro de pacientes, agendamiento de citas médicas, gestión de médicos especialistas y generación de recomendaciones médicas, todo ello respaldado por una base de datos relacional y una arquitectura MVC (Modelo-Vista-Controlador).
+  </p>
+  <p>
+    La aplicación fue construida utilizando <strong>ASP.NET Core Web API</strong> para el backend, <strong>Entity Framework Core</strong> como ORM para la persistencia de datos, <strong>MariaDB (compatible con MySQL)</strong> como sistema de gestión de bases de datos, y un frontend desarrollado en HTML, CSS y JavaScript que consume los servicios REST expuestos por la API.
+  </p>
+
+  <!-- OBJETIVO -->
+  <h2>2. Objetivo</h2>
+  <p>
+    Diseñar y construir una aplicación web funcional que integre los conceptos de la arquitectura MVC, estableciendo conexión con una base de datos relacional para la persistencia de información. La aplicación debe permitir:
+  </p>
+  <ul>
+    <li>Registrar pacientes con sus datos personales.</li>
+    <li>Consultar y filtrar médicos por especialidad.</li>
+    <li>Agendar citas médicas seleccionando médico, fecha y hora.</li>
+    <li>Generar y consultar recomendaciones médicas asociadas a las citas.</li>
+  </ul>
+
+  <!-- TEMA -->
+  <h2>3. Tema</h2>
+  <p>
+    <strong>Desarrollo de una aplicación web para la gestión de citas médicas en una clínica.</strong>
+  </p>
+  <p>
+    La temática aborda la digitalización de los procesos administrativos y clínicos de una institución de salud, permitiendo a los pacientes registrarse, agendar citas con especialistas y recibir recomendaciones médicas de manera ordenada y persistente.
+  </p>
+
+  <!-- DESARROLLO -->
+  <h2>4. Desarrollo</h2>
+
+  <h3>4.1. Arquitectura MVC Implementada</h3>
+  <p>
+    La arquitectura MVC separa la aplicación en tres capas fundamentales:
+  </p>
+  <ul>
+    <li><strong>Modelo (Model):</strong> Representa las entidades de datos y la lógica de negocio. Se implementaron las clases <code>Paciente</code>, <code>Medico</code>, <code>Cita</code>, <code>Recomendacion</code> y <code>Especialidad</code> en C#, junto con el <code>ApplicationDbContext</code> que gestiona la comunicación con la base de datos mediante Entity Framework Core.</li>
+    <li><strong>Vista (View):</strong> Corresponde al frontend desarrollado en HTML, CSS y JavaScript. Las páginas <code>index.html</code>, <code>registro-paciente.html</code>, <code>citas.html</code>, <code>medicos.html</code> y <code>recomendaciones.html</code> conforman la interfaz de usuario.</li>
+    <li><strong>Controlador (Controller):</strong> Implementado como una API REST en ASP.NET Core. Los controladores <code>PacientesController</code>, <code>MedicosController</code>, <code>CitasController</code> y <code>RecomendacionesController</code> exponen endpoints HTTP que reciben peticiones del frontend, interactúan con el modelo y devuelven respuestas JSON.</li>
+  </ul>
+
+  <h3>4.2. Diseño de la Base de Datos</h3>
+  <p>El esquema relacional diseñado consta de las siguientes tablas:</p>
+  <table>
+    <tr><th>Tabla</th><th>Descripción</th><th>Campos principales</th></tr>
+    <tr><td>Pacientes</td><td>Almacena la información de los pacientes registrados.</td><td>IdPaciente, Identificacion, NombreCompleto, Edad, Telefono, Email, EPS</td></tr>
+    <tr><td>Especialidades</td><td>Catálogo de especialidades médicas disponibles.</td><td>IdEspecialidad, NombreEspecialidad, Descripcion</td></tr>
+    <tr><td>Medicos</td><td>Registro de médicos con su especialidad y disponibilidad.</td><td>IdMedico, CodigoMedico, NombreCompleto, IdEspecialidad, HorarioAtencion, Estado</td></tr>
+    <tr><td>Citas</td><td>Agendamiento de citas médicas.</td><td>IdCita, IdPaciente, IdMedico, FechaCita, HoraCita, MotivoConsulta, Estado</td></tr>
+    <tr><td>Recomendaciones</td><td>Recomendaciones médicas generadas tras una consulta.</td><td>IdRecomendacion, IdCita, Diagnostico, Medicamentos, RecomendacionesCuidados, ProximaCita</td></tr>
+  </table>
+
+  <h3>4.3. Tecnologías Utilizadas</h3>
+  <table>
+    <tr><th>Capa</th><th>Tecnología</th><th>Versión</th></tr>
+    <tr><td>Backend</td><td>ASP.NET Core Web API</td><td>.NET 9.0</td></tr>
+    <tr><td>ORM</td><td>Entity Framework Core</td><td>9.0.0</td></tr>
+    <tr><td>Base de Datos</td><td>MariaDB (MySQL compatible)</td><td>12.2</td></tr>
+    <tr><td>Proveedor DB</td><td>Pomelo.EntityFrameworkCore.MySql</td><td>9.0.0-preview</td></tr>
+    <tr><td>Frontend</td><td>HTML5, CSS3, JavaScript (Vanilla)</td><td>—</td></tr>
+    <tr><td>Estilos</td><td>CSS personalizado con variables</td><td>—</td></tr>
+    <tr><td>Control de versiones</td><td>Git</td><td>—</td></tr>
+  </table>
+
+  <h3>4.4. Endpoints de la API REST</h3>
+  <table>
+    <tr><th>Método</th><th>Endpoint</th><th>Descripción</th></tr>
+    <tr><td>GET</td><td>/api/pacientes</td><td>Listar todos los pacientes</td></tr>
+    <tr><td>GET</td><td>/api/pacientes/{id}</td><td>Obtener paciente por ID</td></tr>
+    <tr><td>GET</td><td>/api/pacientes/identificacion/{id}</td><td>Buscar paciente por número de identificación</td></tr>
+    <tr><td>POST</td><td>/api/pacientes</td><td>Crear nuevo paciente</td></tr>
+    <tr><td>PUT</td><td>/api/pacientes/{id}</td><td>Actualizar paciente</td></tr>
+    <tr><td>DELETE</td><td>/api/pacientes/{id}</td><td>Eliminar paciente</td></tr>
+    <tr><td>GET</td><td>/api/medicos</td><td>Listar médicos con especialidad</td></tr>
+    <tr><td>GET</td><td>/api/medicos/especialidad/{id}</td><td>Filtrar médicos por especialidad</td></tr>
+    <tr><td>GET</td><td>/api/citas</td><td>Listar citas</td></tr>
+    <tr><td>GET</td><td>/api/citas/paciente/{id}</td><td>Listar citas de un paciente</td></tr>
+    <tr><td>POST</td><td>/api/citas</td><td>Crear nueva cita</td></tr>
+    <tr><td>GET</td><td>/api/recomendaciones/paciente/{id}</td><td>Consultar recomendaciones por paciente</td></tr>
+    <tr><td>POST</td><td>/api/recomendaciones</td><td>Guardar recomendación médica</td></tr>
+  </table>
+
+  <h3>4.5. Flujo de Funcionamiento</h3>
+  <ol>
+    <li><strong>Registro de paciente:</strong> El usuario accede a <code>registro-paciente.html</code>, completa el formulario y los datos se envían vía <code>fetch</code> a <code>POST /api/pacientes</code>.</li>
+    <li><strong>Agendamiento de cita:</strong> En <code>citas.html</code>, el sistema carga dinámicamente los médicos desde <code>GET /api/medicos</code>. El usuario selecciona médico, fecha y hora. Al confirmar, se envía <code>POST /api/citas</code> con el ID del paciente previamente registrado.</li>
+    <li><strong>Generación de recomendaciones:</strong> El médico accede a <code>recomendaciones.html</code>, busca las citas del paciente por identificación, selecciona una cita y completa el formulario de diagnóstico. Los datos se envían a <code>POST /api/recomendaciones</code>.</li>
+    <li><strong>Consulta de recomendaciones:</strong> El paciente puede buscar sus recomendaciones ingresando su identificación, lo que invoca <code>GET /api/recomendaciones/paciente/{id}</code>.</li>
+  </ol>
+
+  <h3>4.6. Capturas de Pantalla del Código</h3>
+  <p><strong>Estructura del proyecto ASP.NET:</strong></p>
+  <pre>
+ClinicaSaludAPI/
+├── Controllers/
+│   ├── PacientesController.cs
+│   ├── MedicosController.cs
+│   ├── CitasController.cs
+│   └── RecomendacionesController.cs
+├── Models/
+│   ├── Paciente.cs
+│   ├── Medico.cs
+│   ├── Cita.cs
+│   ├── Recomendacion.cs
+│   └── Especialidad.cs
+├── Data/
+│   └── ApplicationDbContext.cs
+├── Program.cs
+└── appsettings.json
+  </pre>
+
+  <p><strong>Configuración de CORS y Entity Framework en Program.cs:</strong></p>
+  <pre>
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAll", policy => {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
+builder.Services.AddDbContext&lt;ApplicationDbContext&gt;(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(...)));
+  </pre>
+
+  <p><strong>Ejemplo de consumo de API desde JavaScript:</strong></p>
+  <pre>
+fetch('http://localhost:5071/api/pacientes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(paciente)
+})
+.then(response => response.json())
+.then(data => console.log('Paciente creado:', data));
+  </pre>
+
+  <!-- CONCLUSIONES -->
+  <h2>5. Conclusiones</h2>
+  <ul>
+    <li>Se logró implementar una aplicación web funcional siguiendo el patrón de arquitectura MVC, separando claramente las responsabilidades del modelo, la vista y el controlador.</li>
+    <li>La integración de Entity Framework Core con MariaDB permitió gestionar la persistencia de datos de manera eficiente, utilizando migraciones para mantener el esquema de base de datos versionado.</li>
+    <li>El frontend, desarrollado con tecnologías nativas web, consume servicios REST de manera asíncrona mediante la API Fetch, demostrando una comunicación efectiva entre cliente y servidor.</li>
+    <li>La aplicación cumple con los requisitos del taller: formularios de registro, control de lógica de negocio en el backend, almacenamiento en base de datos y presentación de resultados al usuario.</li>
+    <li>El uso de CORS garantizó que el frontend pudiera comunicarse con la API sin restricciones de origen durante el desarrollo.</li>
+  </ul>
+
+  <!-- REFERENCIAS -->
+  <h2>6. Referencias Bibliográficas</h2>
+  <p class="reference">
+    Microsoft. (2025). <em>ASP.NET Core documentation</em>. Microsoft Learn. https://learn.microsoft.com/aspnet/core
+  </p>
+  <p class="reference">
+    Microsoft. (2025). <em>Entity Framework Core documentation</em>. Microsoft Learn. https://learn.microsoft.com/ef/core
+  </p>
+  <p class="reference">
+    Mozilla Developer Network. (2025). <em>Fetch API</em>. MDN Web Docs. https://developer.mozilla.org/docs/Web/API/Fetch_API
+  </p>
+  <p class="reference">
+    Pomelo Foundation. (2025). <em>Pomelo.EntityFrameworkCore.MySql</em>. GitHub. https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql
+  </p>
+  <p class="reference">
+    W3C. (2024). <em>HTML5 Specification</em>. World Wide Web Consortium. https://www.w3.org/TR/html5/
+  </p>
+
+</body>
+</html>
