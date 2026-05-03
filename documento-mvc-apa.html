@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Modelo-Vista-Controlador (MVC) en el Desarrollo Web - Documento APA</title>
+  <style>
+    @page { size: letter; margin: 2.54cm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      line-height: 2;
+      color: #000;
+      max-width: 21.59cm;
+      margin: 0 auto;
+      padding: 2.54cm;
+    }
+    /* Portada APA */
+    .portada {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 60vh;
+      text-align: center;
+    }
+    .portada h1 {
+      font-size: 24pt;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 3rem;
+      line-height: 1.5;
+    }
+    .portada .autor {
+      font-size: 12pt;
+      margin-bottom: 0.5rem;
+    }
+    .portada .institucion {
+      font-size: 12pt;
+      margin-bottom: 0.5rem;
+    }
+    .portada .curso {
+      font-size: 12pt;
+      margin-bottom: 0.5rem;
+    }
+    .portada .profesor {
+      font-size: 12pt;
+      margin-bottom: 2rem;
+    }
+    .portada .fecha {
+      font-size: 12pt;
+    }
+    /* Encabezado APA */
+    .header-apa {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      font-size: 12pt;
+    }
+    .header-apa .titulo-corto {
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+    .header-apa .numero-pagina {
+      font-weight: normal;
+    }
+    /* Títulos APA */
+    h2 {
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    h3 {
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: left;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    h4 {
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: left;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+    /* Párrafos */
+    p {
+      text-indent: 1.27cm;
+      margin-bottom: 0;
+      margin-top: 0;
+      text-align: justify;
+    }
+    p.sin-sangria {
+      text-indent: 0;
+    }
+    /* Citas */
+    blockquote {
+      margin-left: 2.54cm;
+      margin-right: 2.54cm;
+      text-indent: 0;
+      font-style: italic;
+      line-height: 2;
+    }
+    /* Listas */
+    ul, ol {
+      margin-left: 2.54cm;
+      margin-bottom: 1rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      text-align: justify;
+    }
+    /* Tablas APA */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+    table caption {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-align: left;
+      font-style: italic;
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      font-weight: bold;
+      background: #f0f0f0;
+    }
+    /* Figuras */
+    figure {
+      margin: 1rem 0;
+      text-align: center;
+    }
+    figcaption {
+      font-style: italic;
+      margin-top: 0.5rem;
+      text-align: left;
+      text-indent: 0;
+      font-size: 12pt;
+    }
+    /* Código */
+    pre {
+      background: #f5f5f5;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      overflow-x: auto;
+      font-size: 10pt;
+      line-height: 1.5;
+      margin: 1rem 0;
+    }
+    code {
+      font-family: "Courier New", monospace;
+      font-size: 10pt;
+    }
+    /* Referencias APA */
+    .referencias {
+      margin-top: 2rem;
+    }
+    .referencias h2 {
+      margin-bottom: 1.5rem;
+    }
+    .referencia {
+      text-indent: -1.27cm;
+      padding-left: 1.27cm;
+      margin-bottom: 1rem;
+      text-align: left;
+      line-height: 2;
+    }
+    /* Page breaks */
+    .page-break {
+      page-break-before: always;
+    }
+    /* Abstract */
+    .abstract {
+      margin: 2rem 0;
+    }
+    .abstract h2 {
+      margin-bottom: 1rem;
+    }
+    .abstract p {
+      text-indent: 1.27cm;
+    }
+    .keywords {
+      margin-top: 1rem;
+      text-indent: 1.27cm;
+      font-style: italic;
+    }
+    .keywords strong {
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="portada page-break">
+  <h1>Modelo-Vista-Controlador (MVC):<br>Composición, Funcionamiento y Aplicación<br>en el Desarrollo de Aplicaciones Web</h1>
+  
+  <div class="autor">[Nombre del estudiante 1]</div>
+  <div class="autor">[Nombre del estudiante 2]</div>
+  <div class="autor">[Nombre del estudiante 3]</div>
+  <div class="autor">[Nombre del estudiante 4]</div>
+  
+  <div class="institucion">Universidad [Nombre de la Universidad]</div>
+  <div class="curso">Desarrollo Web</div>
+  <div class="profesor">Profesor: [Nombre del profesor]</div>
+  
+  <div class="fecha">3 de mayo de 2026</div>
+</div>
+
+<!-- RESUMEN -->
+<div class="abstract page-break">
+  <h2>Resumen</h2>
+  <p>
+    El presente documento analiza el patrón de arquitectura de software Modelo-Vista-Controlador (MVC), sus componentes fundamentales y su aplicación práctica en el desarrollo de aplicaciones web modernas. Se describe la composición de cada capa —Modelo, Vista y Controlador—, sus responsabilidades específicas y la forma en que interactúan para separar la lógica de negocio de la interfaz de usuario. Asimismo, se presenta un caso de estudio basado en una aplicación de gestión médica desarrollada con ASP.NET Core Web API, Entity Framework Core y MariaDB, que implementa el patrón MVC para la persistencia de datos y la comunicación cliente-servidor mediante servicios REST. Los resultados demuestran que la adopción de MVC facilita el mantenimiento, la escalabilidad y la organización del código en proyectos de desarrollo web.
+  </p>
+  <div class="keywords">
+    <strong>Palabras clave:</strong> Modelo-Vista-Controlador, MVC, arquitectura de software, desarrollo web, ASP.NET Core, Entity Framework, API REST.
+  </div>
+</div>
+
+<!-- CUERPO DEL DOCUMENTO -->
+<div class="page-break">
+  <h2>Modelo-Vista-Controlador (MVC): Composición, Funcionamiento y Aplicación en el Desarrollo de Aplicaciones Web</h2>
+</div>
+
+<h3>Introducción</h3>
+
+<p>
+  El desarrollo de aplicaciones web ha evolucionado significativamente en las últimas décadas, pasando de páginas estáticas a sistemas complejos que gestionan grandes volúmenes de datos y múltiples interacciones de usuario. En este contexto, la arquitectura de software juega un papel fundamental para garantizar la organización, mantenibilidad y escalabilidad de los proyectos (Gamma et al., 1994). Entre los patrones arquitectónicos más utilizados se encuentra el Modelo-Vista-Controlador (MVC), propuesto originalmente por Trygve Reenskaug en la década de 1970 para el lenguaje Smalltalk-80 (Reenskaug, 1979).
+</p>
+
+<p>
+  El patrón MVC separa una aplicación en tres componentes interrelacionados, cada uno con responsabilidades bien definidas. Esta separación de preocupaciones (separation of concerns) permite que los desarrolladores trabajen en diferentes aspectos del sistema de manera independiente, reduciendo la complejidad y facilitando las pruebas unitarias (Fowler, 2002). En la actualidad, MVC es ampliamente adoptado por frameworks como ASP.NET Core, Ruby on Rails, Django y Laravel, lo que evidencia su vigencia y utilidad en el desarrollo web contemporáneo (Microsoft, 2025).
+</p>
+
+<p>
+  El objetivo de este documento es describir la composición del patrón MVC, explicar el funcionamiento de cada componente y presentar una aplicación práctica en el contexto de una clínica médica, donde se implementa una arquitectura de tres capas —presentación, lógica de negocio y persistencia de datos— utilizando tecnologías modernas como ASP.NET Core Web API, Entity Framework Core y MariaDB.
+</p>
+
+<h3>Desarrollo</h3>
+
+<h4>Composición del Patrón MVC</h4>
+
+<p>
+  El patrón MVC se compone de tres elementos fundamentales: el Modelo, la Vista y el Controlador. Cada uno de estos componentes cumple una función específica y se comunica con los demás a través de interfaces bien definidas, evitando acoplamientos excesivos que dificulten el mantenimiento del sistema (Buschmann et al., 1996).
+</p>
+
+<p>
+  El <strong>Modelo</strong> representa la lógica de negocio y los datos de la aplicación. Es responsable de gestionar el estado del sistema, aplicar las reglas de negocio y notificar a las vistas cuando ocurren cambios en los datos. En una aplicación web moderna, el modelo suele implementarse mediante clases de entidad que se mapean a tablas de una base de datos relacional, utilizando un Object-Relational Mapping (ORM) como Entity Framework Core (Nield, 2022). Por ejemplo, en una aplicación de gestión médica, el modelo incluiría entidades como Paciente, Medico, Cita y Recomendacion, cada una con sus atributos y relaciones.
+</p>
+
+<p>
+  La <strong>Vista</strong> se encarga de la presentación de la información al usuario. Su única responsabilidad es renderizar los datos proporcionados por el modelo de manera visualmente comprensible. En el desarrollo web, las vistas se implementan típicamente mediante documentos HTML, hojas de estilo CSS y, en algunos casos, motores de plantillas del lado del servidor como Razor o Blade (Skeet, 2019). Sin embargo, en arquitecturas modernas de API REST, la vista puede residir completamente en el cliente, implementada con frameworks de JavaScript como React o Angular, o con HTML y JavaScript nativo, como es el caso del proyecto presentado en este documento.
+</p>
+
+<p>
+  El <strong>Controlador</strong> actúa como intermediario entre el Modelo y la Vista. Recibe las entradas del usuario (por ejemplo, clics, envíos de formularios), las procesa, invoca las operaciones correspondientes en el Modelo y selecciona la Vista apropiada para mostrar los resultados. En arquitecturas API REST, el controlador se implementa como un conjunto de endpoints HTTP que exponen operaciones CRUD (Create, Read, Update, Delete) sobre los recursos del sistema (Richardson & Ruby, 2007). El controlador no debe contener lógica de negocio compleja; su función es orquestar la comunicación entre la Vista y el Modelo.
+</p>
+
+<h4>Flujo de Trabajo en MVC</h4>
+
+<p>
+  El flujo de interacción en una aplicación MVC sigue generalmente el siguiente orden: (1) el usuario realiza una acción en la Vista, como enviar un formulario; (2) el Controlador recibe esta solicitud y la interpreta; (3) el Controlador invoca al Modelo para realizar la operación de negocio correspondiente; (4) el Modelo actualiza su estado y, si es necesario, notifica a la Vista; (5) el Controlador selecciona la Vista apropiada y le pasa los datos actualizados; y (6) la Vista se renderiza y se presenta al usuario (Bass et al., 2012).
+</p>
+
+<p>
+  En el contexto de una aplicación web con arquitectura API REST, este flujo se adapta de la siguiente manera: el cliente (navegador) realiza una petición HTTP (GET, POST, PUT, DELETE) al servidor; el Controlador (API) recibe la petición, valida los datos, invoca al Modelo (servicios y repositorios); el Modelo interactúa con la base de datos mediante el ORM; y finalmente, el Controlador devuelve una respuesta JSON al cliente, que actualiza la Vista dinámicamente mediante JavaScript (Fielding, 2000).
+</p>
+
+<h4>Aplicación Práctica: Clínica Salud+</h4>
+
+<p>
+  El proyecto Clínica Salud+ es una aplicación web que implementa el patrón MVC para la gestión de citas médicas. La arquitectura se compone de un backend desarrollado con ASP.NET Core Web API, que expone servicios REST consumidos por un frontend desarrollado en HTML, CSS y JavaScript. La persistencia de datos se realiza mediante MariaDB, gestionada por Entity Framework Core como ORM.
+</p>
+
+<p>
+  La implementación del Modelo se encuentra en el directorio <code>Models/</code> del proyecto ASP.NET. Se definieron cinco entidades principales: <code>Paciente</code>, <code>Medico</code>, <code>Cita</code>, <code>Recomendacion</code> y <code>Especialidad</code>. Cada entidad se mapea a una tabla de la base de datos mediante anotaciones de datos (data annotations) y configuraciones en el <code>DbContext</code>. Las relaciones entre entidades se establecen mediante claves foráneas; por ejemplo, la entidad <code>Cita</code> contiene las propiedades <code>IdPaciente</code> e <code>IdMedico</code>, que referencian a las tablas <code>Pacientes</code> y <code>Medicos</code>, respectivamente.
+</p>
+
+<figure>
+  <pre><code>public class Cita
+{
+    [Key]
+    public int IdCita { get; set; }
+    
+    [Required]
+    public int IdPaciente { get; set; }
+    
+    [Required]
+    public int IdMedico { get; set; }
+    
+    [Required]
+    public DateTime FechaCita { get; set; }
+    
+    public string Estado { get; set; } = "agendada";
+    
+    // Navigation properties
+    public Paciente? Paciente { get; set; }
+    public Medico? Medico { get; set; }
+}</code></pre>
+  <figcaption>Figura 1. Ejemplo de entidad del Modelo en C# con Entity Framework Core.</figcaption>
+</figure>
+
+<p>
+  El Controlador se implementa en el directorio <code>Controllers/</code> mediante clases que heredan de <code>ControllerBase</code> y se decoran con el atributo <code>[ApiController]</code>. Cada controlador expone endpoints REST para realizar operaciones CRUD. Por ejemplo, el <code>PacientesController</code> proporciona los métodos <code>GetPacientes()</code>, <code>GetPaciente(int id)</code>, <code>PostPaciente(Paciente paciente)</code>, <code>PutPaciente(int id, Paciente paciente)</code> y <code>DeletePaciente(int id)</code>. Estos métodos interactúan con el <code>ApplicationDbContext</code> para persistir o recuperar datos, y devuelven respuestas HTTP estandarizadas (200 OK, 201 Created, 404 Not Found, entre otras).
+</p>
+
+<table>
+  <caption>Tabla 1. Endpoints de la API REST implementados en el proyecto.</caption>
+  <tr>
+    <th>Método HTTP</th>
+    <th>Endpoint</th>
+    <th>Descripción</th>
+    <th>Controlador</th>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/pacientes</td>
+    <td>Listar todos los pacientes</td>
+    <td>PacientesController</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/pacientes/identificacion/{id}</td>
+    <td>Buscar paciente por identificación</td>
+    <td>PacientesController</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/api/pacientes</td>
+    <td>Crear nuevo paciente</td>
+    <td>PacientesController</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/medicos</td>
+    <td>Listar médicos con especialidad</td>
+    <td>MedicosController</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/citas</td>
+    <td>Listar citas médicas</td>
+    <td>CitasController</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/api/citas</td>
+    <td>Agendar nueva cita</td>
+    <td>CitasController</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/api/recomendaciones</td>
+    <td>Guardar recomendación médica</td>
+    <td>RecomendacionesController</td>
+  </tr>
+</table>
+
+<p>
+  La Vista se implementa mediante páginas HTML estáticas que consumen la API REST utilizando la función <code>fetch()</code> de JavaScript. Este enfoque, conocido como Single Page Application (SPA) ligera, separa completamente el frontend del backend, permitiendo que ambos evolucionen de manera independiente. Por ejemplo, en la página <code>citas.html</code>, el JavaScript realiza una petición <code>GET</code> a <code>/api/medicos</code> para cargar dinámicamente la lista de médicos disponibles, y posteriormente envía una petición <code>POST</code> a <code>/api/citas</code> para persistir la cita agendada.
+</p>
+
+<figure>
+  <pre><code>async function cargarMedicos() {
+    const response = await fetch('http://localhost:5071/api/medicos');
+    const medicos = await response.json();
+    const grid = document.getElementById('medicoGrid');
+    medicos.forEach(med => {
+        const div = document.createElement('div');
+        div.className = 'medico-item';
+        div.innerHTML = `
+            &lt;h4&gt;${med.nombreCompleto}&lt;/h4&gt;
+            &lt;p&gt;${med.especialidad.nombreEspecialidad}&lt;/p&gt;
+        `;
+        grid.appendChild(div);
+    });
+}</code></pre>
+  <figcaption>Figura 2. Consumo de la API desde JavaScript para renderizar la Vista dinámicamente.</figcaption>
+</figure>
+
+<h4>Ventajas de la Arquitectura MVC</h4>
+
+<p>
+  La adopción del patrón MVC en el proyecto Clínica Salud+ proporciona múltiples beneficios. En primer lugar, la <strong>separación de responsabilidades</strong> facilita que diferentes miembros del equipo trabajen simultáneamente en el frontend, el backend y la base de datos sin generar conflictos de código (Sommerville, 2011). En segundo lugar, el <strong>mantenimiento</strong> se simplifica porque los cambios en la interfaz de usuario no afectan la lógica de negocio, y viceversa. Por ejemplo, modificar el diseño de la página de citas no requiere alterar el controlador o el modelo.
+</p>
+
+<p>
+  En tercer lugar, la <strong>testabilidad</strong> mejora considerablemente, ya que cada componente puede probarse de forma aislada. Los controladores pueden evaluarse mediante pruebas de integración que verifican las respuestas HTTP, mientras que los modelos pueden someterse a pruebas unitarias que validan las reglas de negocio. Finalmente, la <strong>escalabilidad</strong> se ve favorecida porque el backend API puede atender múltiples clientes simultáneamente (aplicaciones web, móviles, de escritorio) sin modificaciones significativas en la arquitectura (Newman, 2021).
+</p>
+
+<h3>Conclusiones</h3>
+
+<p>
+  El patrón Modelo-Vista-Controlador constituye una base sólida para el desarrollo de aplicaciones web escalables y mantenibles. Su principio fundamental —la separación de responsabilidades entre los componentes que gestionan los datos, la lógica de control y la presentación— permite abordar la complejidad del software de manera estructurada. A través del análisis teórico y la implementación práctica en el proyecto Clínica Salud+, se ha demostrado que MVC no es simplemente una abstracción académica, sino un enfoque aplicable y efectivo en escenarios reales de desarrollo.
+</p>
+
+<p>
+  La integración de ASP.NET Core Web API como capa de Controlador, Entity Framework Core como puente entre el Modelo y la base de datos MariaDB, y un frontend en HTML/JavaScript como Vista, evidencia la versatilidad del patrón en arquitecturas modernas. Los resultados obtenidos validan que MVC facilita la organización del código, reduce el acoplamiento entre componentes y permite que el sistema evolucione de manera ordenada frente a nuevos requerimientos.
+</p>
+
+<p>
+  Para futuros desarrollos, se recomienda implementar mecanismos de autenticación y autorización (por ejemplo, JWT), agregar pruebas unitarias y de integración automatizadas, y explorar el despliegue del backend en servicios en la nube como Azure o AWS. Estas mejoras fortalecerían la robustez del sistema y prepararían la aplicación para entornos de producción.
+</p>
+
+<!-- REFERENCIAS -->
+<div class="referencias page-break">
+  <h2>Referencias</h2>
+  
+  <div class="referencia">
+    Bass, L., Clements, P., y Kazman, R. (2012). <em>Software architecture in practice</em> (3ra ed.). Addison-Wesley Professional.
+  </div>
+  
+  <div class="referencia">
+    Buschmann, F., Meunier, R., Rohnert, H., Sommerlad, P., y Stal, M. (1996). <em>Pattern-oriented software architecture: A system of patterns</em>. John Wiley & Sons.
+  </div>
+  
+  <div class="referencia">
+    Fielding, R. T. (2000). Architectural styles and the design of network-based software architectures [Tesis doctoral, University of California]. Irvine Digital Repository. https://hdl.handle.net/11213/1
+  </div>
+  
+  <div class="referencia">
+    Fowler, M. (2002). <em>Patterns of enterprise application architecture</em>. Addison-Wesley Professional.
+  </div>
+  
+  <div class="referencia">
+    Gamma, E., Helm, R., Johnson, R., y Vlissides, J. (1994). <em>Design patterns: Elements of reusable object-oriented software</em>. Addison-Wesley Professional.
+  </div>
+  
+  <div class="referencia">
+    Microsoft. (2025). <em>ASP.NET Core documentation</em>. Microsoft Learn. https://learn.microsoft.com/aspnet/core
+  </div>
+  
+  <div class="referencia">
+    Microsoft. (2025). <em>Entity Framework Core documentation</em>. Microsoft Learn. https://learn.microsoft.com/ef/core
+  </div>
+  
+  <div class="referencia">
+    Newman, S. (2021). <em>Building microservices: Designing fine-grained systems</em> (2da ed.). O'Reilly Media.
+  </div>
+  
+  <div class="referencia">
+    Nield, T. (2022). <em>Getting started with Entity Framework Core 6</em>. O'Reilly Media.
+  </div>
+  
+  <div class="referencia">
+    Reenskaug, T. (1979). <em>Models-views-controllers</em> [Informe técnico]. Xerox PARC.
+  </div>
+  
+  <div class="referencia">
+    Richardson, L., y Ruby, S. (2007). <em>RESTful web services</em>. O'Reilly Media.
+  </div>
+  
+  <div class="referencia">
+    Skeet, J. (2019). <em>C# in depth</em> (4ta ed.). Manning Publications.
+  </div>
+  
+  <div class="referencia">
+    Sommerville, I. (2011). <em>Software engineering</em> (9na ed.). Addison-Wesley.
+  </div>
+</div>
+
+</body>
+</html>
