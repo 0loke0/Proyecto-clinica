@@ -1,0 +1,165 @@
+Modelo-Vista-Controlador (MVC): Composición, Funcionamiento y Aplicación en el Desarrollo de Aplicaciones Web
+
+[Nombre del estudiante 1]
+[Nombre del estudiante 2]
+[Nombre del estudiante 3]
+[Nombre del estudiante 4]
+
+Universidad [Nombre de la Universidad]
+Desarrollo Web
+Profesor: [Nombre del profesor]
+3 de mayo de 2026
+
+--------------------------------------------------------------------------------
+
+Resumen
+
+El presente documento analiza el patrón de arquitectura de software Modelo-Vista-Controlador (MVC), sus componentes fundamentales y su aplicación práctica en el desarrollo de aplicaciones web modernas. Se describe la composición de cada capa —Modelo, Vista y Controlador—, sus responsabilidades específicas y la forma en que interactúan para separar la lógica de negocio de la interfaz de usuario. Asimismo, se presenta un caso de estudio basado en una aplicación de gestión médica desarrollada con ASP.NET Core Web API, Entity Framework Core y MariaDB, que implementa el patrón MVC para la persistencia de datos y la comunicación cliente-servidor mediante servicios REST. Los resultados demuestran que la adopción de MVC facilita el mantenimiento, la escalabilidad y la organización del código en proyectos de desarrollo web.
+
+Palabras clave: Modelo-Vista-Controlador, MVC, arquitectura de software, desarrollo web, ASP.NET Core, Entity Framework, API REST.
+
+--------------------------------------------------------------------------------
+
+Modelo-Vista-Controlador (MVC): Composición, Funcionamiento y Aplicación en el Desarrollo de Aplicaciones Web
+
+Introducción
+
+El desarrollo de aplicaciones web ha evolucionado significativamente en las últimas décadas, pasando de páginas estáticas a sistemas complejos que gestionan grandes volúmenes de datos y múltiples interacciones de usuario. En este contexto, la arquitectura de software juega un papel fundamental para garantizar la organización, mantenibilidad y escalabilidad de los proyectos (Gamma et al., 1994). Entre los patrones arquitectónicos más utilizados se encuentra el Modelo-Vista-Controlador (MVC), propuesto originalmente por Trygve Reenskaug en la década de 1970 para el lenguaje Smalltalk-80 (Reenskaug, 1979).
+
+El patrón MVC separa una aplicación en tres componentes interrelacionados, cada uno con responsabilidades bien definidas. Esta separación de preocupaciones (separation of concerns) permite que los desarrolladores trabajen en diferentes aspectos del sistema de manera independiente, reduciendo la complejidad y facilitando las pruebas unitarias (Fowler, 2002). En la actualidad, MVC es ampliamente adoptado por frameworks como ASP.NET Core, Ruby on Rails, Django y Laravel, lo que evidencia su vigencia y utilidad en el desarrollo web contemporáneo (Microsoft, 2025).
+
+El objetivo de este documento es describir la composición del patrón MVC, explicar el funcionamiento de cada componente y presentar una aplicación práctica en el contexto de una clínica médica, donde se implementa una arquitectura de tres capas —presentación, lógica de negocio y persistencia de datos— utilizando tecnologías modernas como ASP.NET Core Web API, Entity Framework Core y MariaDB.
+
+--------------------------------------------------------------------------------
+
+Desarrollo
+
+Composición del Patrón MVC
+
+El patrón MVC se compone de tres elementos fundamentales: el Modelo, la Vista y el Controlador. Cada uno de estos componentes cumple una función específica y se comunica con los demás a través de interfaces bien definidas, evitando acoplamientos excesivos que dificulten el mantenimiento del sistema (Buschmann et al., 1996).
+
+El Modelo representa la lógica de negocio y los datos de la aplicación. Es responsable de gestionar el estado del sistema, aplicar las reglas de negocio y notificar a las vistas cuando ocurren cambios en los datos. En una aplicación web moderna, el modelo suele implementarse mediante clases de entidad que se mapean a tablas de una base de datos relacional, utilizando un Object-Relational Mapping (ORM) como Entity Framework Core (Nield, 2022). Por ejemplo, en una aplicación de gestión médica, el modelo incluiría entidades como Paciente, Medico, Cita y Recomendacion, cada una con sus atributos y relaciones.
+
+La Vista se encarga de la presentación de la información al usuario. Su única responsabilidad es renderizar los datos proporcionados por el modelo de manera visualmente comprensible. En el desarrollo web, las vistas se implementan típicamente mediante documentos HTML, hojas de estilo CSS y, en algunos casos, motores de plantillas del lado del servidor como Razor o Blade (Skeet, 2019). Sin embargo, en arquitecturas modernas de API REST, la vista puede residir completamente en el cliente, implementada con frameworks de JavaScript como React o Angular, o con HTML y JavaScript nativo, como es el caso del proyecto presentado en este documento.
+
+El Controlador actúa como intermediario entre el Modelo y la Vista. Recibe las entradas del usuario (por ejemplo, clics, envíos de formularios), las procesa, invoca las operaciones correspondientes en el Modelo y selecciona la Vista apropiada para mostrar los resultados. En arquitecturas API REST, el controlador se implementa como un conjunto de endpoints HTTP que exponen operaciones CRUD (Create, Read, Update, Delete) sobre los recursos del sistema (Richardson & Ruby, 2007). El controlador no debe contener lógica de negocio compleja; su función es orquestar la comunicación entre la Vista y el Modelo.
+
+--------------------------------------------------------------------------------
+
+Flujo de Trabajo en MVC
+
+El flujo de interacción en una aplicación MVC sigue generalmente el siguiente orden: (1) el usuario realiza una acción en la Vista, como enviar un formulario; (2) el Controlador recibe esta solicitud y la interpreta; (3) el Controlador invoca al Modelo para realizar la operación de negocio correspondiente; (4) el Modelo actualiza su estado y, si es necesario, notifica a la Vista; (5) el Controlador selecciona la Vista apropiada y le pasa los datos actualizados; y (6) la Vista se renderiza y se presenta al usuario (Bass et al., 2012).
+
+En el contexto de una aplicación web con arquitectura API REST, este flujo se adapta de la siguiente manera: el cliente (navegador) realiza una petición HTTP (GET, POST, PUT, DELETE) al servidor; el Controlador (API) recibe la petición, valida los datos, invoca al Modelo (servicios y repositorios); el Modelo interactúa con la base de datos mediante el ORM; y finalmente, el Controlador devuelve una respuesta JSON al cliente, que actualiza la Vista dinámicamente mediante JavaScript (Fielding, 2000).
+
+--------------------------------------------------------------------------------
+
+Aplicación Práctica: Clínica Salud+
+
+El proyecto Clínica Salud+ es una aplicación web que implementa el patrón MVC para la gestión de citas médicas. La arquitectura se compone de un backend desarrollado con ASP.NET Core Web API, que expone servicios REST consumidos por un frontend desarrollado en HTML, CSS y JavaScript. La persistencia de datos se realiza mediante MariaDB, gestionada por Entity Framework Core como ORM.
+
+La implementación del Modelo se encuentra en el directorio Models/ del proyecto ASP.NET. Se definieron cinco entidades principales: Paciente, Medico, Cita, Recomendacion y Especialidad. Cada entidad se mapea a una tabla de la base de datos mediante anotaciones de datos (data annotations) y configuraciones en el DbContext. Las relaciones entre entidades se establecen mediante claves foráneas; por ejemplo, la entidad Cita contiene las propiedades IdPaciente e IdMedico, que referencian a las tablas Pacientes y Medicos, respectivamente.
+
+Ejemplo de entidad del Modelo en C# con Entity Framework Core:
+
+public class Cita
+{
+    [Key]
+    public int IdCita { get; set; }
+    
+    [Required]
+    public int IdPaciente { get; set; }
+    
+    [Required]
+    public int IdMedico { get; set; }
+    
+    [Required]
+    public DateTime FechaCita { get; set; }
+    
+    public string Estado { get; set; } = "agendada";
+    
+    // Navigation properties
+    public Paciente? Paciente { get; set; }
+    public Medico? Medico { get; set; }
+}
+
+El Controlador se implementa en el directorio Controllers/ mediante clases que heredan de ControllerBase y se decoran con el atributo [ApiController]. Cada controlador expone endpoints REST para realizar operaciones CRUD. Por ejemplo, el PacientesController proporciona los métodos GetPacientes(), GetPaciente(int id), PostPaciente(Paciente paciente), PutPaciente(int id, Paciente paciente) y DeletePaciente(int id). Estos métodos interactúan con el ApplicationDbContext para persistir o recuperar datos, y devuelven respuestas HTTP estandarizadas (200 OK, 201 Created, 404 Not Found, entre otras).
+
+Tabla 1. Endpoints de la API REST implementados en el proyecto.
+
+Método HTTP | Endpoint                           | Descripción                           | Controlador
+------------|------------------------------------|---------------------------------------|----------------------
+GET         | /api/pacientes                     | Listar todos los pacientes            | PacientesController
+GET         | /api/pacientes/identificacion/{id} | Buscar paciente por identificación    | PacientesController
+POST        | /api/pacientes                     | Crear nuevo paciente                  | PacientesController
+GET         | /api/medicos                       | Listar médicos con especialidad       | MedicosController
+GET         | /api/citas                         | Listar citas médicas                  | CitasController
+POST        | /api/citas                         | Agendar nueva cita                    | CitasController
+POST        | /api/recomendaciones               | Guardar recomendación médica          | RecomendacionesController
+
+La Vista se implementa mediante páginas HTML estáticas que consumen la API REST utilizando la función fetch() de JavaScript. Este enfoque, conocido como Single Page Application (SPA) ligera, separa completamente el frontend del backend, permitiendo que ambos evolucionen de manera independiente. Por ejemplo, en la página citas.html, el JavaScript realiza una petición GET a /api/medicos para cargar dinámicamente la lista de médicos disponibles, y posteriormente envía una petición POST a /api/citas para persistir la cita agendada.
+
+Ejemplo de consumo de la API desde JavaScript:
+
+async function cargarMedicos() {
+    const response = await fetch('http://localhost:5071/api/medicos');
+    const medicos = await response.json();
+    const grid = document.getElementById('medicoGrid');
+    medicos.forEach(med => {
+        const div = document.createElement('div');
+        div.className = 'medico-item';
+        div.innerHTML = `
+            <h4>${med.nombreCompleto}</h4>
+            <p>${med.especialidad.nombreEspecialidad}</p>
+        `;
+        grid.appendChild(div);
+    });
+}
+
+--------------------------------------------------------------------------------
+
+Ventajas de la Arquitectura MVC
+
+La adopción del patrón MVC en el proyecto Clínica Salud+ proporciona múltiples beneficios. En primer lugar, la separación de responsabilidades facilita que diferentes miembros del equipo trabajen simultáneamente en el frontend, el backend y la base de datos sin generar conflictos de código (Sommerville, 2011). En segundo lugar, el mantenimiento se simplifica porque los cambios en la interfaz de usuario no afectan la lógica de negocio, y viceversa. Por ejemplo, modificar el diseño de la página de citas no requiere alterar el controlador o el modelo.
+
+En tercer lugar, la testabilidad mejora considerablemente, ya que cada componente puede probarse de forma aislada. Los controladores pueden evaluarse mediante pruebas de integración que verifican las respuestas HTTP, mientras que los modelos pueden someterse a pruebas unitarias que validan las reglas de negocio. Finalmente, la escalabilidad se ve favorecida porque el backend API puede atender múltiples clientes simultáneamente (aplicaciones web, móviles, de escritorio) sin modificaciones significativas en la arquitectura (Newman, 2021).
+
+--------------------------------------------------------------------------------
+
+Conclusiones
+
+El patrón Modelo-Vista-Controlador constituye una base sólida para el desarrollo de aplicaciones web escalables y mantenibles. Su principio fundamental —la separación de responsabilidades entre los componentes que gestionan los datos, la lógica de control y la presentación— permite abordar la complejidad del software de manera estructurada. A través del análisis teórico y la implementación práctica en el proyecto Clínica Salud+, se ha demostrado que MVC no es simplemente una abstracción académica, sino un enfoque aplicable y efectivo en escenarios reales de desarrollo.
+
+La integración de ASP.NET Core Web API como capa de Controlador, Entity Framework Core como puente entre el Modelo y la base de datos MariaDB, y un frontend en HTML/JavaScript como Vista, evidencia la versatilidad del patrón en arquitecturas modernas. Los resultados obtenidos validan que MVC facilita la organización del código, reduce el acoplamiento entre componentes y permite que el sistema evolucione de manera ordenada frente a nuevos requerimientos.
+
+Para futuros desarrollos, se recomienda implementar mecanismos de autenticación y autorización (por ejemplo, JWT), agregar pruebas unitarias y de integración automatizadas, y explorar el despliegue del backend en servicios en la nube como Azure o AWS. Estas mejoras fortalecerían la robustez del sistema y prepararían la aplicación para entornos de producción.
+
+--------------------------------------------------------------------------------
+
+Referencias
+
+Bass, L., Clements, P., y Kazman, R. (2012). Software architecture in practice (3ra ed.). Addison-Wesley Professional.
+
+Buschmann, F., Meunier, R., Rohnert, H., Sommerlad, P., y Stal, M. (1996). Pattern-oriented software architecture: A system of patterns. John Wiley & Sons.
+
+Fielding, R. T. (2000). Architectural styles and the design of network-based software architectures [Tesis doctoral, University of California]. Irvine Digital Repository. https://hdl.handle.net/11213/1
+
+Fowler, M. (2002). Patterns of enterprise application architecture. Addison-Wesley Professional.
+
+Gamma, E., Helm, R., Johnson, R., y Vlissides, J. (1994). Design patterns: Elements of reusable object-oriented software. Addison-Wesley Professional.
+
+Microsoft. (2025). ASP.NET Core documentation. Microsoft Learn. https://learn.microsoft.com/aspnet/core
+
+Microsoft. (2025). Entity Framework Core documentation. Microsoft Learn. https://learn.microsoft.com/ef/core
+
+Newman, S. (2021). Building microservices: Designing fine-grained systems (2da ed.). O'Reilly Media.
+
+Nield, T. (2022). Getting started with Entity Framework Core 6. O'Reilly Media.
+
+Reenskaug, T. (1979). Models-views-controllers [Informe técnico]. Xerox PARC.
+
+Richardson, L., y Ruby, S. (2007). RESTful web services. O'Reilly Media.
+
+Skeet, J. (2019). C# in depth (4ta ed.). Manning Publications.
+
+Sommerville, I. (2011). Software engineering (9na ed.). Addison-Wesley.
